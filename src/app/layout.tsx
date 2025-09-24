@@ -1,4 +1,6 @@
+declare module '*.css';
 import "./globals.css";
+
 import Header from "@/components/Header"; 
 import Footer from "@/components/Footer";
 import { AuthorsProvider } from "@/contexts/AuthorsProvider";

@@ -1,6 +1,6 @@
 "use client";
 import AuthorGrid from "@/components/AuthorGrid";
-import useAuthors from "@/hooks/useAuthors";
+import useAuthors from "@/hooks/useAuthorsData";
 import { useRouter } from "next/navigation";
 
 export default function AuthorsPage() {

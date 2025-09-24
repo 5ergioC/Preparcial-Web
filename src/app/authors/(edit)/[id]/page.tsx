@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import AuthorForm from "@/components/AuthorForm";
-import useAuthors from "@/hooks/useAuthors";
+import useAuthors from "@/hooks/useAuthorsData";
 import { useParams, useRouter } from "next/navigation";
 import type { AuthorInput } from "@/lib/authorsApi";
 
@@ -27,6 +27,7 @@ export default function EditAuthorPage() {
     <div className="space-y-4">
       <h1 className="text-2xl font-semibold">Editar autor</h1>
       <AuthorForm
+        mode="edit"
         initialValues={initial}
         onSubmit={async (values) => { await update(Number(id), values); router.push("/authors"); }}
       />
