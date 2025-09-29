@@ -2,17 +2,16 @@ import type { Book } from "@/lib/authorsApi";
 
 export type Review = {
   id: number | string;
-  reviewer?: string;
-  rating?: number;
-  comment?: string;
-  date?: string;
+  name?: string;
+  source?: string;
+  description?: string;
 };
 
+
 export type ReviewInput = {
-  reviewer?: string;
-  rating?: number;
-  comment: string;
-  date?: string;
+  name?: string;
+  source?: string;
+  description?: string;
 };
 
 const API = "";
@@ -36,8 +35,8 @@ export async function fetchBook(id: number | string): Promise<Book & { reviews?:
   return r.json();
 }
 
-export async function createReview(bookId: number | string, data: ReviewInput): Promise<Review> {
-  const r = await fetch(`${API}/api/books/${bookId}/reviews`, {
+export async function createReview(id: number | string, data: ReviewInput): Promise<Review> {
+  const r = await fetch(`${API}/api/books/${id}/reviews`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),

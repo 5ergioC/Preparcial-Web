@@ -40,7 +40,7 @@ export type AuthorInput = {
   image?: string;
 };
 
-const API = ""; // mismo origen: /api/*
+const API = ""; 
 
 async function parseError(r: Response) {
   const text = await r.text().catch(() => "");

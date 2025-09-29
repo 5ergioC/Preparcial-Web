@@ -20,3 +20,4 @@ export async function DELETE(_: NextRequest, { params }: { params: { id: string 
   const text = await r.text();
   return new Response(text, { status: r.status, headers: { "content-type": r.headers.get("content-type") ?? "application/json" } });
 }
+

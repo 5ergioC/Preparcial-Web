@@ -7,12 +7,15 @@ import { fetchBook, createReview } from "@/lib/booksApi";
 import ReviewForm from "@/components/ReviewForm";
 
 export default function BookDetailPage() {
-  const { id } = useParams<{ id: string }>();
+  const params = useParams();
+  const id = params?.id as string | undefined;
+
   const [book, setBook] = useState<(Book & { reviews?: Review[] }) | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function reload() {
+    if (!id) return;
     setLoading(true);
     setError(null);
     try {
@@ -26,7 +29,7 @@ export default function BookDetailPage() {
   }
 
   useEffect(() => {
-    void reload();
+    if (id) void reload();
   }, [id]);
 
   async function handleAddReview(values: ReviewInput) {
@@ -35,8 +38,10 @@ export default function BookDetailPage() {
     await reload();
   }
 
+  if (!id) return <p className="text-red-600">No se encontró el ID del libro</p>;
   if (loading || !book) return <p>Cargando…</p>;
   if (error) return <p className="text-red-600 text-sm">{error}</p>;
+
 
   return (
     <div className="space-y-6">
@@ -60,11 +65,16 @@ export default function BookDetailPage() {
             {book.reviews?.map((r) => (
               <li key={r.id} className="card p-4">
                 <div className="flex items-center justify-between">
-                  <div className="font-medium">{r.reviewer ?? "Anónimo"}</div>
-                  <div className="text-sm" style={{ color: "var(--muted)" }}>{typeof r.rating === "number" ? `★ ${r.rating}` : ""}</div>
+                  <div className="font-medium">{r.name?.trim() || "Anónimo"}</div>
+                  {r.source ? (
+                    <div className="text-sm" style={{ color: "var(--muted)" }}>
+                      {r.source}
+                    </div>
+                  ) : null}
                 </div>
-                <p className="text-sm mt-1" style={{ color: "var(--muted)" }}>{r.comment ?? ""}</p>
-                <div className="text-xs mt-2" style={{ color: "var(--muted)" }}>{r.date ?? ""}</div>
+                <p className="text-sm mt-1" style={{ color: "var(--muted)" }}>
+                  {r.description ?? ""}
+                </p>
               </li>
             ))}
           </ul>
@@ -72,6 +82,7 @@ export default function BookDetailPage() {
           <p style={{ color: "var(--muted)" }}>Sin reviews.</p>
         )}
       </section>
+
 
       <section className="space-y-3">
         <h2 className="text-lg font-semibold">Agregar review</h2>

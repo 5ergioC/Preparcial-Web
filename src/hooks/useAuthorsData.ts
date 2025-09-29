@@ -41,10 +41,19 @@ export default function useAuthorsData() {
   const createWithRelations = useCallback(
     async (author: AuthorInput, book: BookInput, prize: PrizeInput) => {
       const createdAuthor = await createAuthor(author);
-      const createdBook = await createBook(book);
+
+      const createdBook = await createBook({
+        ...book,
+        editorial: { id: 1000, name: "BLOOMSBURY" },
+      });
       await associateBookToAuthor(createdAuthor.id, createdBook.id);
-      const createdPrize = await createPrize(prize);
+
+      const createdPrize = await createPrize({
+        ...prize,
+        organization: { id: 1000, name: "org1", tipo: "PUBLICA" },
+      });
       await associatePrizeToAuthor(createdPrize.id, createdAuthor.id);
+
       const refreshed = await fetchAuthor(createdAuthor.id);
       setAuthors((prev) => [refreshed, ...prev]);
     },

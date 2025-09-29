@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 export default function AuthorsPage() {
   const router = useRouter();
-  const { authors, remove } = useAuthors(); // ya están cargados por el Provider
+  const { authors, remove } = useAuthors(); 
 
   return (
     <div className="space-y-4">
@@ -14,8 +14,8 @@ export default function AuthorsPage() {
       </div>
       <AuthorGrid
         authors={authors}
-        onEdit={(id) => router.push(`/authors/${id}`)}
-        onDelete={(id) => void remove(id)}  // sólo estado
+        onEdit={(id) => router.push(`/authors/${id}/edit`)}
+        onDelete={(id) => void remove(id)} 
       />
     </div>
   );
